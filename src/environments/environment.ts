@@ -8,7 +8,7 @@ import { Environment } from '@delon/theme';
 
 export const environment = {
   production: false,
-  useHash: true,
+  useHash: false,
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
