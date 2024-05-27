@@ -58,6 +58,11 @@ export class StartupService {
             text: 'Dashboard',
             link: '/dashboard',
             icon: { type: 'icon', value: 'appstore' }
+          },
+          {
+            text: 'APISIX',
+            link: '/apisix',
+            icon: { type: 'icon', value: 'appstore' }
           }
         ]
       }
