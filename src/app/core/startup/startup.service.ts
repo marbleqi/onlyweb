@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
-import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import type { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, of, catchError, map } from 'rxjs';
@@ -27,7 +26,6 @@ export function provideStartup(): Provider[] {
 export class StartupService {
   private menuService = inject(MenuService);
   private settingService = inject(SettingsService);
-  private tokenSrv = inject(DA_SERVICE_TOKEN);
   private aclService = inject(ACLService);
   private titleService = inject(TitleService);
   private httpClient = inject(HttpClient);
@@ -44,7 +42,6 @@ export class StartupService {
       email: 'cipchk@qq.com',
       token: '123456789'
     };
-    this.tokenSrv.set({ token: '123456789' });
     // Application information: including site name, description, year
     this.settingService.setApp(app);
     // User information: including name, avatar, email address

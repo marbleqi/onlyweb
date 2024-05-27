@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { I18nPipe, SettingsService, User } from '@delon/theme';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
@@ -28,11 +27,6 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
           <i nz-icon nzType="close-circle" class="mr-sm"></i>
           触发错误
         </div>
-        <li nz-menu-divider></li>
-        <div nz-menu-item (click)="logout()">
-          <i nz-icon nzType="logout" class="mr-sm"></i>
-          退出登录
-        </div>
       </div>
     </nz-dropdown-menu>
   `,
@@ -43,13 +37,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 export class HeaderUserComponent {
   private readonly settings = inject(SettingsService);
   private readonly router = inject(Router);
-  private readonly tokenService = inject(DA_SERVICE_TOKEN);
   get user(): User {
     return this.settings.user;
-  }
-
-  logout(): void {
-    this.tokenService.clear();
-    this.router.navigateByUrl(this.tokenService.login_url!);
   }
 }
