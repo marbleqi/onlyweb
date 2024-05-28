@@ -35,4 +35,6 @@ import { HeaderUserComponent } from './widgets/user.component';
 })
 export class LayoutBasicComponent {
   options: LayoutDefaultOptions = { logoExpanded: `./assets/logo.png`, logoCollapsed: `./assets/logo.png` };
+
+  showSelected: boolean = true;
 }

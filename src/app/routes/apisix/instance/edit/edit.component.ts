@@ -20,6 +20,7 @@ export class ApisixInstanceEditComponent implements OnInit {
   protected readonly route = inject(ActivatedRoute);
   /**消息服务 */
   private readonly msgSrv = inject(NzMessageService);
+  /**实例服务 */
   private readonly instanceSrv = inject(ApisixInstanceService);
   /**页面类型：创建、编辑、复制 */
   type!: 'add' | 'edit' | 'copy';

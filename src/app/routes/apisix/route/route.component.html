@@ -1,0 +1,27 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button (click)="add()" nz-button nzType="primary">新建</button>
+  </ng-template>
+</page-header>
+<st #st [data]="data" [columns]="columns">
+  <ng-template st-row="host" let-item let-index="index">
+    @if (item.value.host) {
+      <nz-tag nzColor="blue">{{ item.value.host }}</nz-tag>
+    }
+    @if (item.value.hosts) {
+      @for (i of item.value.hosts; track $index) {
+        <nz-tag nzColor="blue">{{ i }}</nz-tag>
+      }
+    }
+  </ng-template>
+  <ng-template st-row="uri" let-item let-index="index">
+    @if (item.value.uri) {
+      <nz-tag nzColor="blue">{{ item.value.uri }}</nz-tag>
+    }
+    @if (item.value.uris) {
+      @for (i of item.value.uris; track $index) {
+        <nz-tag nzColor="blue">{{ i }}</nz-tag>
+      }
+    }
+  </ng-template>
+</st>

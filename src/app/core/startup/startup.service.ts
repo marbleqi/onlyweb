@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
-import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
-import type { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { Observable, zip, of, catchError, map } from 'rxjs';
+import { MenuService, SettingsService, TitleService } from '@delon/theme';
+import { Observable, never, of } from 'rxjs';
 
 /**
  * Used for application startup
@@ -28,7 +26,6 @@ export class StartupService {
   private settingService = inject(SettingsService);
   private aclService = inject(ACLService);
   private titleService = inject(TitleService);
-  private httpClient = inject(HttpClient);
   private router = inject(Router);
 
   load(): Observable<void> {
@@ -52,7 +49,7 @@ export class StartupService {
     this.menuService.add([
       {
         text: 'Main',
-        group: true,
+        group: false,
         children: [
           {
             text: 'Dashboard',
@@ -70,6 +67,6 @@ export class StartupService {
     // Can be set page suffix title, https://ng-alain.com/theme/title
     this.titleService.suffix = app.name;
 
-    return of(void 0);
+    return of(undefined);
   }
 }

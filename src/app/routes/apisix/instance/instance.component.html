@@ -3,4 +3,8 @@
     <button nz-button nzType="primary" routerLink="add">新建</button>
   </ng-template>
 </page-header>
-<st [data]="data" [columns]="columns" />
+<st [data]="data" [columns]="columns">
+  <ng-template st-row="host" let-item let-index="index">
+    <button nz-button nzType="link" routerLink="add">新建</button>
+  </ng-template>
+</st>

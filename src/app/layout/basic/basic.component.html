@@ -1,4 +1,4 @@
-<layout-default [options]="options" [content]="content" [customError]="null">
+<layout-default [options]="options" [asideUser]="asideUser" [content]="content" [customError]="null">
   <layout-default-header-item direction="right" hidden="mobile">
     <div layout-default-header-item-trigger nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="click" nzPlacement="bottomRight">
       <i nz-icon nzType="setting"></i>
@@ -17,6 +17,33 @@
   <layout-default-header-item direction="right">
     <header-user />
   </layout-default-header-item>
+  <ng-template #asideUser>
+    @if (showSelected) {
+      <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="alain-default__aside-user">
+        <strong>Click me</strong>
+      </div>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item>1st menu item<a routerLink="/apisix/instance">sdfasdf</a></li>
+          <li nz-menu-item>2nd menu item</li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item nzDisabled>disabled menu item</li>
+          <li nz-submenu nzTitle="sub menu">
+            <ul>
+              <li nz-menu-item>3rd menu item</li>
+              <li nz-menu-item>4th menu item</li>
+            </ul>
+          </li>
+          <li nz-submenu nzDisabled nzTitle="disabled sub menu">
+            <ul>
+              <li nz-menu-item>3rd menu item</li>
+              <li nz-menu-item>4th menu item</li>
+            </ul>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    }
+  </ng-template>
   <ng-template #content>
     <router-outlet />
   </ng-template>

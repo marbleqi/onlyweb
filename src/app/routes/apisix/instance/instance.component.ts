@@ -17,7 +17,7 @@ export class ApisixInstanceComponent implements OnInit {
   columns: STColumn[] = [
     { type: 'checkbox' },
     { title: '实例ID', index: 'id' },
-    { title: '实例名称', index: 'name' },
+    { title: '实例名称', type: 'link', index: 'name', click: record => `/apisix/dashboard/${record.id}` },
     { title: '实例说明', index: 'description' },
     { title: '接口地址', index: 'url' },
     {
