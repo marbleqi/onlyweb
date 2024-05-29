@@ -1,8 +1,6 @@
 import { APP_INITIALIZER, Injectable, Provider, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { ACLService } from '@delon/acl';
 import { MenuService, SettingsService, TitleService } from '@delon/theme';
-import { Observable, never, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 /**
  * Used for application startup
@@ -22,31 +20,27 @@ export function provideStartup(): Provider[] {
 
 @Injectable()
 export class StartupService {
-  private menuService = inject(MenuService);
-  private settingService = inject(SettingsService);
-  private aclService = inject(ACLService);
-  private titleService = inject(TitleService);
-  private router = inject(Router);
+  private menuSrv = inject(MenuService);
+  private settingSrv = inject(SettingsService);
+  private titleSrv = inject(TitleService);
 
   load(): Observable<void> {
     const app: any = {
       name: `NG-ALAIN`,
       description: `NG-ZORRO admin panel front-end framework`
     };
+    // Application information: including site name, description, year
+    this.settingSrv.setApp(app);
     const user: any = {
       name: 'Admin',
       avatar: './assets/tmp/img/avatar.jpg',
       email: 'cipchk@qq.com',
       token: '123456789'
     };
-    // Application information: including site name, description, year
-    this.settingService.setApp(app);
     // User information: including name, avatar, email address
-    this.settingService.setUser(user);
-    // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-    this.aclService.setFull(true);
+    this.settingSrv.setUser(user);
     // Menu data, https://ng-alain.com/theme/menu
-    this.menuService.add([
+    this.menuSrv.add([
       {
         text: 'Main',
         group: false,
@@ -65,8 +59,7 @@ export class StartupService {
       }
     ]);
     // Can be set page suffix title, https://ng-alain.com/theme/title
-    this.titleService.suffix = app.name;
-
+    this.titleSrv.suffix = app.name;
     return of(undefined);
   }
 }

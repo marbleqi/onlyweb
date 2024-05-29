@@ -5,7 +5,6 @@ import { ReuseTabModule } from '@delon/abc/reuse-tab';
 import { SEModule } from '@delon/abc/se';
 import { STModule } from '@delon/abc/st';
 import { SVModule } from '@delon/abc/sv';
-import { DelonACLModule } from '@delon/acl';
 import { DelonFormModule } from '@delon/form';
 import { TreeSelectWidgetModule } from '@delon/form/widgets/tree-select';
 export const SHARED_DELON_MODULES = [
@@ -14,7 +13,6 @@ export const SHARED_DELON_MODULES = [
   SEModule,
   SVModule,
   ResultModule,
-  DelonACLModule,
   DelonFormModule,
   TreeSelectWidgetModule,
   FooterToolbarModule,

@@ -10,8 +10,11 @@ import {
   withHashLocation,
   RouterFeatures
 } from '@angular/router';
+import { IconDefinition } from '@ant-design/icons-angular';
+import * as AllIcons from '@ant-design/icons-angular/icons';
 import { defaultInterceptor, provideStartup } from '@core';
 import { provideCellWidgets } from '@delon/abc/cell';
+import { provideReuseTabConfig, ReuseTabMatchMode, ReuseTabRouteParamMatchMode } from '@delon/abc/reuse-tab';
 import { provideSTWidgets } from '@delon/abc/st';
 import { provideSFConfig } from '@delon/form';
 import { AlainProvideLang, provideAlain, zh_CN as delonLang } from '@delon/theme';
@@ -23,8 +26,8 @@ import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
 import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 
 import { routes } from './routes/routes';
-import { ICONS } from '../style-icons';
-import { ICONS_AUTO } from '../style-icons-auto';
+const antDesignIcons = AllIcons as { [key: string]: IconDefinition };
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -67,14 +70,13 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideHttpClient(withInterceptors([...(environment.interceptorFns ?? []), defaultInterceptor])),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
-  provideAlain({ config: alainConfig, defaultLang, icons: [...ICONS_AUTO, ...ICONS] }),
+  provideAlain({ config: alainConfig, defaultLang, icons }),
   provideNzConfig(ngZorroConfig),
   provideCellWidgets(...CELL_WIDGETS),
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: [...SF_WIDGETS] }),
+  provideReuseTabConfig({ max: 30 }),
   provideStartup()
 ];
 
-export const appConfig: ApplicationConfig = {
-  providers: providers
-};
+export const appConfig: ApplicationConfig = { providers: providers };
