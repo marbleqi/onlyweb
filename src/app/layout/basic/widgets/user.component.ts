@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { I18nPipe, SettingsService, User } from '@delon/theme';
+import { SettingsService, User } from '@delon/theme';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -32,7 +32,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, NzDropDownModule, NzMenuModule, NzIconModule, I18nPipe, NzAvatarModule]
+  imports: [RouterLink, NzDropDownModule, NzMenuModule, NzIconModule, NzAvatarModule]
 })
 export class HeaderUserComponent {
   private readonly settings = inject(SettingsService);

@@ -1,10 +1,7 @@
 <page-header title="APISIX实例" [action]="action">
   <ng-template #action>
     <button nz-button nzType="primary" routerLink="add">新建</button>
+    <button nz-button (click)="reload()">刷新</button>
   </ng-template>
 </page-header>
-<st [data]="data" [columns]="columns">
-  <ng-template st-row="host" let-item let-index="index">
-    <button nz-button nzType="link" routerLink="add">新建</button>
-  </ng-template>
-</st>
+<st [data]="data" [columns]="columns" />

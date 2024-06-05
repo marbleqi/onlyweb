@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, OnInit, inject } from '@angular/core';
+import { ReuseTabService, OnReuseInit } from '@delon/abc/reuse-tab';
 import { STColumn, STData } from '@delon/abc/st';
 import { SHARED_IMPORTS } from '@shared';
 
@@ -6,11 +7,15 @@ import { ApisixInstanceService } from '..';
 
 @Component({
   selector: 'app-apisix-instance',
+  templateUrl: './instance.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS],
-  templateUrl: './instance.component.html'
+  imports: [...SHARED_IMPORTS]
 })
-export class ApisixInstanceComponent implements OnInit {
+export class ApisixInstanceComponent implements OnInit, OnReuseInit {
+  /**cdr */
+  private readonly cdr = inject(ChangeDetectorRef);
+  /**实例服务 */
   private readonly instanceSrv = inject(ApisixInstanceService);
 
   /**表格配置 */
@@ -20,6 +25,8 @@ export class ApisixInstanceComponent implements OnInit {
     { title: '实例名称', type: 'link', index: 'name', click: record => `/apisix/dashboard/${record.id}` },
     { title: '实例说明', index: 'description' },
     { title: '接口地址', index: 'url' },
+    { title: '创建时间', index: 'create_at', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm:ss.SSS' },
+    { title: '修改时间', index: 'update_at', type: 'date', dateFormat: 'yyyy-MM-dd HH:mm:ss.SSS' },
     {
       title: '操作',
       fixed: 'right',
@@ -33,16 +40,16 @@ export class ApisixInstanceComponent implements OnInit {
   data: STData[] = [];
 
   ngOnInit(): void {
+    console.debug('实例页面初始化');
     this.reload();
+  }
+
+  /**路由复用初始化 */
+  _onReuseInit() {
+    console.debug('路由复用初始化');
   }
 
   reload() {
     this.data = this.instanceSrv.index();
-  }
-
-  add(): void {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
   }
 }

@@ -15,6 +15,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
@@ -60,5 +61,6 @@ export const SHARED_ZORRO_MODULES = [
   FooterToolbarModule,
   NzWaterMarkModule,
   NzImageModule,
-  NzCollapseModule
+  NzCollapseModule,
+  NzMenuModule
 ];

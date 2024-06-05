@@ -1,0 +1,33 @@
+<st #st [footer]="footer" [data]="data" [columns]="columns" [page]="{ show: false }">
+  <ng-template st-row="host" let-item let-index="index">
+    <input nz-input [ngModel]="item.host" [disabled]="disabled" (ngModelChange)="setValue('host', index, $event)" />
+  </ng-template>
+  <ng-template st-row="port" let-item let-index="index">
+    <nz-input-number [ngModel]="item.port" [nzDisabled]="disabled" (ngModelChange)="setValue('port', index, $event)" />
+  </ng-template>
+  <ng-template st-row="weight" let-item let-index="index">
+    <nz-input-number [ngModel]="item.weight" [nzDisabled]="disabled" (ngModelChange)="setValue('weight', index, $event)" />
+  </ng-template>
+  <ng-template st-row="operate" let-item let-index="index">
+    <button nz-button nz-popover nzType="text" nzPopoverContent="插入记录" (click)="insert(item, index)">
+      <span nz-icon nzType="plus" nzTheme="outline"></span>
+    </button>
+    <button nz-button nz-popover nzType="text" nzPopoverContent="克隆记录" (click)="copy(item)">
+      <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
+    </button>
+    @if (st.count > 1 && !disabled) {
+      <button nz-button nz-popover nzType="text" nzPopoverContent="删除记录" (click)="distory(index)">
+        <span nz-icon nzType="delete-row" nzTheme="outline"></span>
+      </button>
+    }
+  </ng-template>
+  <ng-template #footer>
+    @if (!disabled) {
+      <div nz-row [nzGutter]="[16, 24]">
+        <div nz-col>
+          <button nz-button nzType="dashed" (click)="add()">新建</button>
+        </div>
+      </div>
+    }
+  </ng-template>
+</st>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
@@ -9,11 +9,14 @@ import { ApisixInstanceService } from '../..';
 
 @Component({
   selector: 'app-apisix-instance-edit',
+  templateUrl: './edit.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS],
-  templateUrl: './edit.component.html'
+  imports: [...SHARED_IMPORTS]
 })
-export class ApisixInstanceEditComponent implements OnInit {
+export class ApisixInstanceEditComponent {
+  /**cdr */
+  private readonly cdr = inject(ChangeDetectorRef);
   /**路由服务 */
   protected readonly router = inject(Router);
   /**当前路由快照 */
@@ -24,7 +27,8 @@ export class ApisixInstanceEditComponent implements OnInit {
   private readonly instanceSrv = inject(ApisixInstanceService);
   /**页面类型：创建、编辑、复制 */
   type!: 'add' | 'edit' | 'copy';
-  loading: boolean = false;
+  /**页面类型：创建、编辑、复制 */
+  loading: boolean = true;
   /**列表页路径 */
   baseUrl: string = '/apisix/instance';
   /**对象名称 */
@@ -41,25 +45,31 @@ export class ApisixInstanceEditComponent implements OnInit {
       name: { type: 'string', title: '实例名称' },
       description: { type: 'string', title: '实例说明' },
       url: { type: 'string', title: '接口地址' },
-      key: { type: 'string', title: '接口密钥' }
+      key: { type: 'string', title: '接口密钥' },
+      create_at: { type: 'number', title: '创建时间' },
+      update_at: { type: 'number', title: '修改时间' }
     },
-    required: ['name', 'description']
+    required: ['name', 'description', 'url', 'key']
   };
   /**表单样式 */
   ui: SFUISchema = {
     '*': { spanLabelFixed: 100, spanLabel: 4, spanControl: 20, grid: { span: 12 } },
-    $id: { widget: 'text', hidden: true, grid: { span: 24 } }
+    $id: { widget: 'text', hidden: true, grid: { span: 24 } },
+    $create_at: { widget: 'at' },
+    $update_at: { widget: 'at' }
   };
   id!: number;
   i: any;
   /**表单提交数据 */
   value: any;
-  ngOnInit(): void {
+
+  constructor() {
     this.type = this.route.snapshot.data['type'];
     if (this.type === 'add') {
       this.title = `新建${this.name}`;
       this.buttonName = '提交';
-      this.loading = false;
+      this.i = {};
+      this.value = {};
     } else {
       if (!this.route.snapshot.params['id']) {
         this.msgSrv.error(`${this.name}id不存在`);
@@ -74,20 +84,23 @@ export class ApisixInstanceEditComponent implements OnInit {
           this.buttonName = '提交';
         }
         this.i = this.instanceSrv.show(this.id);
+        this.value = this.instanceSrv.show(this.id);
       }
     }
+    this.loading = false;
   }
 
   reload() {
-    console.debug('');
+    this.sf.reset();
   }
+
   save(): void {
     if (this.type === 'edit') {
       this.instanceSrv.update(this.id, this.value);
+      this.msgSrv.success('保存成功');
     } else {
       this.instanceSrv.create(this.value);
+      this.msgSrv.success('创建成功');
     }
-    console.debug('保存成功', this.value);
-    this.msgSrv.success('保存成功', this.value);
   }
 }

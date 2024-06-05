@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { STColumn, STComponent, STData, STColumnTag } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { MenuService, SettingsService } from '@delon/theme';
 import { SHARED_IMPORTS } from '@shared';
 import { format, fromUnixTime } from 'date-fns';
 
@@ -8,28 +9,31 @@ import { ApisixRouteService } from '..';
 
 @Component({
   selector: 'app-apisix-route',
+  templateUrl: './route.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS],
-  templateUrl: './route.component.html'
+  imports: [...SHARED_IMPORTS]
 })
 export class ApisixRouteComponent implements OnInit {
+  /**cdr */
+  private readonly cdr = inject(ChangeDetectorRef);
+  /**当前路由快照 */
+  private readonly route = inject(ActivatedRoute);
+  /**路由服务 */
+  private readonly router = inject(Router);
+  private readonly menuSrv = inject(MenuService);
+  private readonly settingSrv = inject(SettingsService);
+  /**APISIX的路由服务 */
   private readonly routeSrv = inject(ApisixRouteService);
 
-  id: number = 1;
-  searchSchema: SFSchema = {
-    properties: {
-      no: {
-        type: 'string',
-        title: '编号'
-      }
-    }
-  };
+  iid: number = 1;
+
   @ViewChild('st') private readonly st!: STComponent;
   columns: STColumn[] = [
     { title: 'ID', index: 'value.id' },
     {
       title: '名称',
-      index: 'name',
+      index: 'value.name',
       filter: { type: 'keyword', fn: (filter, record) => !filter.value || record.value.name.includes(filter.value) }
     },
     { title: '描述', index: 'value.desc' },
@@ -88,25 +92,36 @@ export class ApisixRouteComponent implements OnInit {
       fixed: 'right',
       width: 300,
       buttons: [
-        { text: '编辑', icon: 'edit', type: 'link', click: record => `/apisix/route/${this.id}/edit/${record.id}` },
-        { text: '克隆', icon: 'copy', type: 'link', click: record => `/apisix/route/${this.id}/copy/${record.id}` }
+        { text: '编辑', icon: 'edit', type: 'link', click: record => `/apisix/route/${this.iid}/edit/${record.value.id}` },
+        { text: '克隆', icon: 'copy', type: 'link', click: record => `/apisix/route/${this.iid}/copy/${record.value.id}` },
+        { text: '删除', icon: 'delete', click: record => this.remove(record.value.id) }
       ]
     }
   ];
   data: STData[] = [];
+  constructor() {
+    this.iid = Number(this.route.snapshot.params['iid']);
+    if (!this.iid) {
+      this.router.navigateByUrl('/apisix/instance');
+    }
+    this.settingSrv.setLayout('apisix', 'dddddd');
+  }
+
   ngOnInit(): void {
     this.reload();
   }
+
   reload() {
-    this.routeSrv.index(1).subscribe(res => {
+    this.routeSrv.index(this.iid).subscribe(res => {
       console.debug(res.list);
       this.data = res.list;
+      this.cdr.detectChanges();
     });
   }
 
-  add(): void {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+  remove(id: string) {
+    this.routeSrv.remove(this.iid, id).subscribe(res => {
+      this.reload();
+    });
   }
 }

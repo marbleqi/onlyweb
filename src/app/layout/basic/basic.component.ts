@@ -1,17 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { I18nPipe } from '@delon/theme';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { MenuService, SettingsService } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
-import { SettingDrawerModule } from '@delon/theme/setting-drawer';
-import { ThemeBtnComponent } from '@delon/theme/theme-btn';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { SHARED_IMPORTS } from '@shared';
 
-import { HeaderClearStorageComponent } from './widgets/clear-storage.component';
-import { HeaderFullScreenComponent } from './widgets/fullscreen.component';
-import { HeaderUserComponent } from './widgets/user.component';
+import { HeaderClearStorageComponent, HeaderFullScreenComponent, HeaderUserComponent } from '..';
 
 @Component({
   selector: 'layout-basic',
@@ -19,22 +12,31 @@ import { HeaderUserComponent } from './widgets/user.component';
   standalone: true,
   imports: [
     RouterOutlet,
-    RouterLink,
-    I18nPipe,
     LayoutDefaultModule,
-    SettingDrawerModule,
-    ThemeBtnComponent,
-    NzIconModule,
-    NzMenuModule,
-    NzDropDownModule,
-    NzAvatarModule,
+    ...SHARED_IMPORTS,
     HeaderClearStorageComponent,
     HeaderFullScreenComponent,
     HeaderUserComponent
   ]
 })
 export class LayoutBasicComponent {
+  private menuSrv = inject(MenuService);
+  private settingSrv = inject(SettingsService);
+
   options: LayoutDefaultOptions = { logoExpanded: `./assets/logo.png`, logoCollapsed: `./assets/logo.png` };
 
-  showSelected: boolean = true;
+  showSelected: boolean = false;
+  selectOptions: any[] = [];
+
+  selectValue: any = null;
+
+  constructor() {
+    this.settingSrv.notify.subscribe(res => {
+      console.debug('通知', res);
+    });
+  }
+
+  selectChange(value: any) {
+    console.debug('selectChange', value);
+  }
 }

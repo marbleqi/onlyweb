@@ -75,7 +75,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideCellWidgets(...CELL_WIDGETS),
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: [...SF_WIDGETS] }),
-  provideReuseTabConfig({ max: 30 }),
+  provideReuseTabConfig({ mode: ReuseTabMatchMode.URL, max: 30 }),
   provideStartup()
 ];
 

@@ -10,10 +10,37 @@ export class ApisixRouteService {
   private readonly instanceSrv = inject(ApisixInstanceService);
 
   /**
-   * 获取实例列表
+   * 获取路由列表
+   * @param iid 实例ID
+   * @returns 路由列表
    */
-  index(id: number): Observable<any> {
-    const instance = this.instanceSrv.show(id);
+  index(iid: number): Observable<any> {
+    const instance = this.instanceSrv.show(iid);
     return this.http.get(`${instance.url}/apisix/admin/routes`, {}, { headers: { 'X-API-KEY': instance.key } });
+  }
+
+  show(iid: number, id: string): Observable<any> {
+    console.debug(iid, typeof iid, id, typeof id);
+    const instance = this.instanceSrv.show(iid);
+    console.debug(instance);
+    return this.http.get(`${instance.url}/apisix/admin/routes/${id}`, {}, { headers: { 'X-API-KEY': instance.key } });
+  }
+
+  create(iid: number, value: any): Observable<any> {
+    console.debug(iid, value);
+    const instance = this.instanceSrv.show(iid);
+    console.debug(instance);
+    return this.http.post(`${instance.url}/apisix/admin/routes`, value, {}, { headers: { 'X-API-KEY': instance.key } });
+  }
+
+  update(iid: number, id: string, value: any): Observable<any> {
+    const instance = this.instanceSrv.show(iid);
+    console.debug(instance);
+    return this.http.patch(`${instance.url}/apisix/admin/routes/${id}`, value, {}, { headers: { 'X-API-KEY': instance.key } });
+  }
+
+  remove(iid: number, id: string): Observable<any> {
+    const instance = this.instanceSrv.show(iid);
+    return this.http.delete(`${instance.url}/apisix/admin/routes/${id}`, {}, { headers: { 'X-API-KEY': instance.key } });
   }
 }

@@ -18,31 +18,11 @@
     <header-user />
   </layout-default-header-item>
   <ng-template #asideUser>
-    @if (showSelected) {
-      <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="alain-default__aside-user">
-        <strong>Click me</strong>
-      </div>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>1st menu item<a routerLink="/apisix/instance">sdfasdf</a></li>
-          <li nz-menu-item>2nd menu item</li>
-          <li nz-menu-divider></li>
-          <li nz-menu-item nzDisabled>disabled menu item</li>
-          <li nz-submenu nzTitle="sub menu">
-            <ul>
-              <li nz-menu-item>3rd menu item</li>
-              <li nz-menu-item>4th menu item</li>
-            </ul>
-          </li>
-          <li nz-submenu nzDisabled nzTitle="disabled sub menu">
-            <ul>
-              <li nz-menu-item>3rd menu item</li>
-              <li nz-menu-item>4th menu item</li>
-            </ul>
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-    }
+    <nz-card class="text-center">
+      @if (showSelected) {
+        <nz-select [ngModel]="selectValue" [nzOptions]="selectOptions" nzBorderless (ngModelChange)="selectChange($event)" />
+      }
+    </nz-card>
   </ng-template>
   <ng-template #content>
     <router-outlet />
