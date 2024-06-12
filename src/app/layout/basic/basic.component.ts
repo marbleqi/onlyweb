@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
@@ -32,6 +32,8 @@ export class LayoutBasicComponent {
   selectOptions: any[] = [];
   /**选择框值 */
   selectValue!: any;
+  /**选择框值 */
+  mainTitle!: string;
 
   constructor() {
     this.settingSrv.notify.subscribe(res => {
@@ -45,6 +47,9 @@ export class LayoutBasicComponent {
           if (res.value) {
             this.selectOptions = [];
           }
+        }
+        if (res.name === 'mainTitle') {
+          this.mainTitle = res.value;
         }
       }
     });

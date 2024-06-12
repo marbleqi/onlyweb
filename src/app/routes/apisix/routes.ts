@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import {
+  ApisixService,
   ApisixInstanceService,
   ApisixDashboardService,
   ApisixRouteService,
@@ -18,7 +19,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'prefix',
-    providers: [ApisixInstanceService, ApisixDashboardService, ApisixRouteService, ApisixSslService],
+    providers: [ApisixService, ApisixInstanceService, ApisixDashboardService, ApisixRouteService, ApisixSslService],
     children: [
       { path: '', redirectTo: 'instance', pathMatch: 'full' },
       { path: 'instance', component: ApisixInstanceComponent },

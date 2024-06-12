@@ -11,7 +11,7 @@ export const routes: Routes = [
     data: {},
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: HomeComponent, data: { reuse: false } },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'apisix', loadChildren: () => import('./apisix/routes').then(m => m.routes) },
       { path: 'aliyun', loadChildren: () => import('./aliyun/routes').then(m => m.routes) },

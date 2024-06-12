@@ -1,1 +1,6 @@
 <page-header title="控制台" />
+@for (item of allIcons; track $index) {
+  <label nz-radio-button [nzValue]="item" nz-tooltip [nzTooltipTitle]="item">
+    <span nz-icon [nzType]="item" nzTheme="outline"></span>
+  </label>
+}

@@ -22,4 +22,17 @@
       <label nz-checkbox [(ngModel)]="checked">隐藏</label>
     </ng-template>
   </div>
+  <div nz-col>
+    <nz-card style="width: 300px" nzTitle="设置" [nzExtra]="kong">
+      <p>
+        <a routerLink="/setting/app">应用</a>
+      </p>
+      <p>
+        <a routerLink="/setting/user">用户</a>
+      </p>
+    </nz-card>
+    <ng-template #kong>
+      <label nz-checkbox [(ngModel)]="checked">隐藏</label>
+    </ng-template>
+  </div>
 </div>

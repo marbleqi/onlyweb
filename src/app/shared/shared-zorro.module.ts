@@ -29,6 +29,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTransferModule } from 'ng-zorro-antd/transfer';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzWaterMarkModule } from 'ng-zorro-antd/water-mark';
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -62,5 +63,6 @@ export const SHARED_ZORRO_MODULES = [
   NzWaterMarkModule,
   NzImageModule,
   NzCollapseModule,
-  NzMenuModule
+  NzMenuModule,
+  NzTypographyModule
 ];

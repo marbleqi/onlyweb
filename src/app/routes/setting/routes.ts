@@ -1,9 +1,16 @@
 import { Routes } from '@angular/router';
 
-import { SettingAppComponent } from './app/app.component';
-import { SettingUserComponent } from './user/user.component';
+import { SettingService, SettingUserComponent, SettingAppComponent } from '.';
 
 export const routes: Routes = [
-  { path: 'app', component: SettingAppComponent },
-  { path: 'user', component: SettingUserComponent }
+  {
+    path: '',
+    pathMatch: 'prefix',
+    providers: [SettingService],
+    children: [
+      { path: '', redirectTo: 'user', pathMatch: 'full' },
+      { path: 'user', component: SettingUserComponent, data: { reuse: false } },
+      { path: 'app', component: SettingAppComponent, data: { reuse: false } }
+    ]
+  }
 ];

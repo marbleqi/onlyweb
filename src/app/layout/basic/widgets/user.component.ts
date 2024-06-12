@@ -15,17 +15,13 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
-        <div nz-menu-item routerLink="/pro/account/center">
+        <div nz-menu-item routerLink="/setting/app">
+          <i nz-icon nzType="tool" class="mr-sm"></i>
+          应用配置
+        </div>
+        <div nz-menu-item routerLink="/setting/user">
           <i nz-icon nzType="user" class="mr-sm"></i>
-          个人中心
-        </div>
-        <div nz-menu-item routerLink="/pro/account/settings">
-          <i nz-icon nzType="setting" class="mr-sm"></i>
           个人设置
-        </div>
-        <div nz-menu-item routerLink="/exception/trigger">
-          <i nz-icon nzType="close-circle" class="mr-sm"></i>
-          触发错误
         </div>
       </div>
     </nz-dropdown-menu>

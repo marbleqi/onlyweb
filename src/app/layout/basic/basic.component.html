@@ -21,6 +21,8 @@
     <nz-card class="text-center">
       @if (selectShowed) {
         <nz-select [ngModel]="selectValue" [nzOptions]="selectOptions" nzBorderless (ngModelChange)="selectChange($event)" />
+      } @else {
+        <h5 nz-typography> {{ mainTitle }}</h5>
       }
     </nz-card>
   </ng-template>
