@@ -45,14 +45,11 @@ export class ApisixRouteComponent implements OnInit {
         fn: (filter, record) => {
           if (!filter.value) {
             return true;
-          }
-          if (record?.host && record.host.includes(filter.value)) {
+          } else if (record?.value.host && record.value.host.includes(filter.value)) {
             return true;
-          }
-          if (record?.hosts && record.hosts.some((host: string) => host.includes(filter.value))) {
+          } else if (record?.value.hosts && record.value.hosts.some((host: string) => host.includes(filter.value))) {
             return true;
-          }
-          return false;
+          } else return false;
         }
       }
     },
@@ -72,7 +69,7 @@ export class ApisixRouteComponent implements OnInit {
           { value: 0, text: '未发布' }
         ],
         multiple: true,
-        fn: (filter, record) => filter.value === null || filter.value === record.status
+        fn: (filter, record) => filter.value === null || filter.value === record.value.status
       }
     },
     {

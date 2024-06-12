@@ -1,5 +1,5 @@
-<page-header [action]="phActionTpl">
-  <ng-template #phActionTpl>
+<page-header title="路由" [action]="action">
+  <ng-template #action>
     <button nz-button nzType="primary" routerLink="add">新建</button>
     <button nz-button (click)="reload()">刷新</button>
   </ng-template>

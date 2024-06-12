@@ -1,0 +1,25 @@
+<page-header title="首页" [action]="action">
+  <ng-template #action>
+    <div class="flex-center-between">
+      <label nz-checkbox [(ngModel)]="checked">显示隐藏模块</label>
+    </div>
+  </ng-template>
+</page-header>
+<div nz-row nzGutter="16">
+  <div nz-col>
+    <nz-card style="width: 300px" nzTitle="APISIX" [nzExtra]="apisix">
+      <a routerLink="/apisix">实例</a>
+    </nz-card>
+    <ng-template #apisix>
+      <label nz-checkbox [(ngModel)]="checked">隐藏</label>
+    </ng-template>
+  </div>
+  <div nz-col>
+    <nz-card style="width: 300px" nzTitle="KONG" [nzExtra]="kong">
+      <a routerLink="/kong">实例</a>
+    </nz-card>
+    <ng-template #kong>
+      <label nz-checkbox [(ngModel)]="checked">隐藏</label>
+    </ng-template>
+  </div>
+</div>

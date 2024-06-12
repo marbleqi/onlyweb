@@ -1,9 +1,13 @@
-<page-header [action]="phActionTpl">
-  <ng-template #phActionTpl>
-    <button (click)="add()" nz-button nzType="primary">新建</button>
+<page-header title="证书" [action]="action">
+  <ng-template #action>
+    <button nz-button nzType="primary" routerLink="add">新建</button>
+    <button nz-button (click)="reload()">刷新</button>
   </ng-template>
 </page-header>
-<nz-card>
-  <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)" />
-  <st #st [data]="url" [columns]="columns" />
-</nz-card>
+<st #st [data]="data" [columns]="columns">
+  <ng-template st-row="snis" let-item let-index="index">
+    @for (i of item.value.snis; track $index) {
+      <nz-tag nzColor="blue">{{ i }}</nz-tag>
+    }
+  </ng-template>
+</st>

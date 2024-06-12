@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 import { LayoutBasicComponent } from '../layout';
 
 export const routes: Routes = [
@@ -9,9 +10,12 @@ export const routes: Routes = [
     component: LayoutBasicComponent,
     data: {},
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'apisix', loadChildren: () => import('./apisix/routes').then(m => m.routes) }
+      { path: 'apisix', loadChildren: () => import('./apisix/routes').then(m => m.routes) },
+      { path: 'aliyun', loadChildren: () => import('./aliyun/routes').then(m => m.routes) },
+      { path: 'setting', loadChildren: () => import('./setting/routes').then(m => m.routes) }
     ]
   },
   // passport

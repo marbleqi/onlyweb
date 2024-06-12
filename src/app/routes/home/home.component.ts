@@ -3,18 +3,18 @@ import { Layout, _HttpClient, SettingsService, MenuService } from '@delon/theme'
 import { SHARED_IMPORTS } from '@shared';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [...SHARED_IMPORTS]
 })
-export class DashboardComponent implements OnInit {
+export class HomeComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly http = inject(_HttpClient);
   private readonly settingSrv = inject(SettingsService);
   private menuSrv = inject(MenuService);
-
+  checked = true;
   constructor() {
     this.settingSrv.notify.subscribe(res => {
       console.debug('notify', res);

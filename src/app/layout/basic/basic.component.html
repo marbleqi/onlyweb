@@ -19,7 +19,7 @@
   </layout-default-header-item>
   <ng-template #asideUser>
     <nz-card class="text-center">
-      @if (showSelected) {
+      @if (selectShowed) {
         <nz-select [ngModel]="selectValue" [nzOptions]="selectOptions" nzBorderless (ngModelChange)="selectChange($event)" />
       }
     </nz-card>
