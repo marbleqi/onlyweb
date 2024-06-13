@@ -53,5 +53,6 @@ export class SettingAppComponent implements OnInit {
   save(): void {
     this.settingSrv.setApp({ ...this.sf.value, create_at: this.sf.value?.['create_at'] || Date.now(), update_at: Date.now() });
     this.msgSrv.success('保存成功');
+    this.reload();
   }
 }

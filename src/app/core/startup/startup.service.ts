@@ -39,7 +39,7 @@ export class StartupService {
     } else {
       this.settingSrv.setUser({
         name: '运维管理员',
-        avatar: './assets/tmp/img/avatar.jpg',
+        avatar: './assets/logo.png',
         email: 'cipchk@qq.com',
         create_at: Date.now(),
         update_at: Date.now()

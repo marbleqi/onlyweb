@@ -19,7 +19,6 @@ export class ApisixInstanceService {
   constructor() {
     this.dataMap = new Map<number, any>();
     const data = this.settingSrv.getData('apisix');
-    console.debug('apisix', data);
     const result = data || [];
     if (result.length) {
       for (const item of result) {

@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ControlWidget } from '@delon/form';
 import { SHARED_IMPORTS } from '@shared';
 
 /**表单字符串数组小部件 */
 @Component({
   selector: 'sf-widget-list',
+  templateUrl: './list.widget.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS],
-  templateUrl: './list.widget.html'
+  imports: [...SHARED_IMPORTS]
 })
 export class ListWidget extends ControlWidget implements OnInit {
   /**小部件key */

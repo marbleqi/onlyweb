@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ControlWidget } from '@delon/form';
 import { SHARED_IMPORTS } from '@shared';
 import { format, fromUnixTime } from 'date-fns';
 
 @Component({
   selector: 'sf-widget-at',
+  templateUrl: './at.widget.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS],
-  templateUrl: './at.widget.html'
+  imports: [...SHARED_IMPORTS]
 })
 export class AtWidget extends ControlWidget {
   /**小部件key */

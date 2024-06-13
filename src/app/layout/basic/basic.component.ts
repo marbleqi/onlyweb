@@ -38,7 +38,6 @@ export class LayoutBasicComponent {
   mainTitle!: string;
   constructor() {
     this.settingSrv.notify.subscribe(res => {
-      console.debug('basic通知', res);
       if (res.type === 'layout') {
         if (res.name === 'hideAside') {
           this.options = { ...this.options, hideAside: res.value };
@@ -46,7 +45,6 @@ export class LayoutBasicComponent {
         if (res.name === 'selectShowed') {
           this.selectShowed = res.value;
           if (res.value) {
-            console.debug('selectOptions', this.settingSrv.getData('selectOptions'));
             this.selectOptions = this.settingSrv.getData('selectOptions');
             this.selectValue = this.settingSrv.getData('selectValue');
           }

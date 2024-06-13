@@ -93,7 +93,6 @@ export class ApisixSslComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.notify = this.settingSrv.notify.subscribe(res => {
-      console.debug('route通知', res);
       if (res.type === 'layout' && res.name === 'selectValue' && this.iid !== res.value) {
         this.router.navigateByUrl(`/apisix/ssl/${res.value}`);
       }
@@ -112,7 +111,6 @@ export class ApisixSslComponent implements OnInit, OnDestroy {
 
   reload() {
     this.sslSrv.index(this.iid).subscribe(res => {
-      console.debug(res.list);
       this.data = res.list;
       this.cdr.detectChanges();
     });

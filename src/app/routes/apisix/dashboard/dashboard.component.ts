@@ -24,6 +24,5 @@ export class ApisixDashboardComponent implements OnInit {
   ngOnInit(): void {
     const iid = Number(this.route.snapshot.params['iid']);
     this.apisixSrv.menu(iid);
-    console.debug('iid', iid);
   }
 }

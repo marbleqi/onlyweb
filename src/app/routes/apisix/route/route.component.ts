@@ -101,7 +101,6 @@ export class ApisixRouteComponent implements OnInit, OnDestroy {
   notify: Subscription;
   constructor() {
     this.notify = this.settingSrv.notify.subscribe(res => {
-      console.debug('route通知', res);
       if (res.type === 'layout' && res.name === 'selectValue' && this.iid !== res.value) {
         this.router.navigateByUrl(`/apisix/route/${res.value}`);
       }
@@ -120,7 +119,6 @@ export class ApisixRouteComponent implements OnInit, OnDestroy {
 
   reload() {
     this.routeSrv.index(this.iid).subscribe(res => {
-      console.debug(res.list);
       this.data = res.list;
       this.cdr.detectChanges();
     });

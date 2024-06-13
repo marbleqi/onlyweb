@@ -1,0 +1,68 @@
+<sf-item-wrap
+  [id]="id"
+  [schema]="schema"
+  [ui]="ui"
+  [className]="className"
+  [showError]="showError"
+  [error]="error"
+  [showTitle]="schema.title"
+>
+  @if (!locked) {
+    <div nz-row [nzGutter]="8" nzJustify="end" nzAlign="middle">
+      <div nz-col>
+        <nz-select [ngModel]="language" (ngModelChange)="languageChange($event)" nzPlaceHolder="语言" class="width-sm">
+          <nz-option nzValue="yaml" nzLabel="YAML" />
+          <nz-option nzValue="text" nzLabel="TEXT" />
+          <nz-option nzValue="json" nzLabel="JSON" />
+          <nz-option nzValue="html" nzLabel="HTML" />
+          <nz-option nzValue="properties" nzLabel="Properties" />
+          <nz-option nzValue="typescript" nzLabel="TypeScript" />
+          <nz-option nzValue="java" nzLabel="Java" />
+          <nz-option nzValue="pgsql" nzLabel="PgSql" />
+          <nz-option nzValue="mysql" nzLabel="MySql" />
+        </nz-select>
+      </div>
+      <div nz-col>
+        <nz-select [ngModel]="theme" (ngModelChange)="themeChange($event)" nzPlaceHolder="样式" class="width-sm">
+          <nz-option nzValue="vs" nzLabel="vs" />
+          <nz-option nzValue="vs-dark" nzLabel="vs-dark" />
+          <nz-option nzValue="hc-black" nzLabel="hc-black" />
+          <nz-option nzValue="hc-light" nzLabel="hc-light" />
+        </nz-select>
+      </div>
+      <div nz-col>
+        <nz-select [ngModel]="lineNumbers" (ngModelChange)="lineNumbersChange($event)" nzPlaceHolder="行号" class="width-sm">
+          <nz-option nzValue="on" nzLabel="显示" />
+          <nz-option nzValue="off" nzLabel="隐藏" />
+          <nz-option nzValue="relative" nzLabel="相对" />
+          <nz-option nzValue="interval" nzLabel="间隔" />
+        </nz-select>
+      </div>
+    </div>
+  }
+  @if (mode === 'edit') {
+    <nu-monaco-editor
+      #monaco_editor
+      [height]="height"
+      [disabled]="readOnly"
+      [autoFormat]="autoFormat"
+      [options]="options"
+      [delay]="delay"
+      [ngModel]="value"
+      (ngModelChange)="setValue($event)"
+      (event)="showEvent($event)"
+    />
+  }
+  @if (mode === 'diff') {
+    <nu-monaco-diff-editor
+      #monaco_diff
+      [height]="height"
+      [disabled]="readOnly"
+      [options]="options"
+      [delay]="delay"
+      [ngModel]="value"
+      (ngModelChange)="setValue($event)"
+      (event)="showEvent($event)"
+    />
+  }
+</sf-item-wrap>

@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
   hidden = false;
   moduleHidden: string[] = [];
   ngOnInit(): void {
-    console.debug('页面初始化');
     this.settingSrv.setLayout('hideAside', true);
     if (this.settingSrv.getData('moduleHidden')) {
       this.moduleHidden = this.settingSrv.getData('moduleHidden');

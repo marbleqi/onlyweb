@@ -84,7 +84,6 @@ export class ApisixSslEditComponent implements OnInit, OnDestroy {
   notify: Subscription;
   constructor() {
     this.notify = this.settingSrv.notify.subscribe(res => {
-      console.debug('route通知', res);
       if (res.type === 'layout' && res.name === 'selectValue' && this.iid !== res.value) {
         this.router.navigateByUrl(`/apisix/ssl/${res.value}`);
       }
@@ -126,7 +125,6 @@ export class ApisixSslEditComponent implements OnInit, OnDestroy {
           this.buttonName = '提交';
         }
         this.sslSrv.show(this.iid, this.id).subscribe(res => {
-          console.debug(`${this.name}数据`, res);
           this.i = res.value;
           this.value = res.value;
           this.loading = false;

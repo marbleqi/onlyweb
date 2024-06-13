@@ -5,6 +5,7 @@ import { SettingsService } from '@delon/theme';
 import { SHARED_IMPORTS } from '@shared';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { parse, stringify } from 'yaml';
 
 import { ApisixService, ApisixRouteService, ApisixRouteNodesComponent } from '../..';
 
@@ -127,6 +128,7 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
           nodes: { type: 'string', title: '目标节点' }
         }
       },
+      plugins: { type: 'string', title: '插件配置' },
       create_time: { type: 'number', title: '创建时间', timestamp: 's' },
       update_time: { type: 'number', title: '修改时间', timestamp: 's' }
     }
@@ -156,6 +158,7 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
       $type: { widget: 'select', grid: { span: 8 } },
       $nodes: { widget: 'custom', grid: { span: 24 } }
     },
+    $plugins: { widget: 'monaco', grid: { span: 24 }, height: '500px', locked: true, options: { language: 'yaml', theme: 'vs-dark' } },
     $create_time: { widget: 'at' },
     $update_time: { widget: 'at' }
   };
@@ -168,7 +171,6 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
   /**构造函数 */
   constructor() {
     this.notify = this.settingSrv.notify.subscribe(res => {
-      console.debug('route通知', res);
       if (res.type === 'layout' && res.name === 'selectValue' && this.iid !== res.value) {
         this.router.navigateByUrl(`/apisix/route/${res.value}`);
       }
@@ -194,7 +196,7 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
       this.buttonName = '提交';
       this.loading = false;
       this.i = {};
-      this.value = {};
+      this.value = { plugins: '' };
       this.nodes = [];
     } else {
       if (!this.route.snapshot.params['id']) {
@@ -211,8 +213,8 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
         }
         this.routeSrv.show(this.iid, this.id).subscribe(res => {
           console.debug(`${this.name}数据`, res);
-          this.i = res.value;
-          this.value = res.value;
+          this.i = { ...res.value, plugins: stringify(res.value.plugins) };
+          this.value = { ...res.value, plugins: stringify(res.value.plugins) };
           this.nodes = res.value.upstream.nodes;
           this.loading = false;
           this.cdr.detectChanges();
@@ -225,6 +227,7 @@ export class ApisixRouteEditComponent implements OnInit, OnDestroy {
   save() {
     const value = {
       ...this.value,
+      plugins: parse(this.value.plugins),
       upstream: { ...this.value.upstream, nodes: this.nodes },
       id: undefined,
       create_time: undefined,
