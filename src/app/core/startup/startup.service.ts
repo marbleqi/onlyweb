@@ -41,7 +41,8 @@ export class StartupService {
         name: '运维管理员',
         avatar: './assets/tmp/img/avatar.jpg',
         email: 'cipchk@qq.com',
-        token: '123456789'
+        create_at: Date.now(),
+        update_at: Date.now()
       });
     }
     // 设置标题后缀

@@ -15,23 +15,28 @@ export class HomeComponent implements OnInit {
   private readonly settingSrv = inject(SettingsService);
   private menuSrv = inject(MenuService);
   checked = true;
-  constructor() {
-    this.settingSrv.notify.subscribe(res => {
-      console.debug('notify', res);
-    });
-  }
-
+  hidden = false;
+  moduleHidden: string[] = [];
   ngOnInit(): void {
     console.debug('页面初始化');
-
     this.settingSrv.setLayout('hideAside', true);
+    if (this.settingSrv.getData('moduleHidden')) {
+      this.moduleHidden = this.settingSrv.getData('moduleHidden');
+    } else {
+      this.settingSrv.setData('moduleHidden', this.moduleHidden);
+    }
+  }
 
-    // this.settingSrv.setLayout({
-    //   layout: Layout.Sidebar,
-    //   sidebar: {
-    //     theme: 'dark',
-    //     collapsed: false
-    //   }
-    // });
+  getHiding(module: string): boolean {
+    return this.moduleHidden.includes(module);
+  }
+
+  hideChange(module: string, hidden: boolean) {
+    if (hidden) {
+      this.moduleHidden.push(module);
+    } else {
+      this.moduleHidden = this.moduleHidden.filter(item => item !== module);
+    }
+    this.settingSrv.setData('moduleHidden', this.moduleHidden);
   }
 }

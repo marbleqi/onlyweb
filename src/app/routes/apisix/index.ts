@@ -1,5 +1,5 @@
-export * from './apisix.service';
 export * from './instance/instance.service';
+export * from './apisix.service';
 export * from './dashboard/dashboard.service';
 export * from './ssl/ssl.service';
 export * from './route/route.service';

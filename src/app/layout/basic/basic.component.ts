@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
@@ -22,6 +22,8 @@ import { HeaderClearStorageComponent, HeaderFullScreenComponent, HeaderUserCompo
   ]
 })
 export class LayoutBasicComponent {
+  /**cdr */
+  private readonly cdr = inject(ChangeDetectorRef);
   /**配置项目服务 */
   private readonly settingSrv = inject(SettingsService);
   /**布局配置 */
@@ -34,10 +36,9 @@ export class LayoutBasicComponent {
   selectValue!: any;
   /**选择框值 */
   mainTitle!: string;
-
   constructor() {
     this.settingSrv.notify.subscribe(res => {
-      console.debug('通知', res);
+      console.debug('basic通知', res);
       if (res.type === 'layout') {
         if (res.name === 'hideAside') {
           this.options = { ...this.options, hideAside: res.value };
@@ -45,17 +46,20 @@ export class LayoutBasicComponent {
         if (res.name === 'selectShowed') {
           this.selectShowed = res.value;
           if (res.value) {
-            this.selectOptions = [];
+            console.debug('selectOptions', this.settingSrv.getData('selectOptions'));
+            this.selectOptions = this.settingSrv.getData('selectOptions');
+            this.selectValue = this.settingSrv.getData('selectValue');
           }
         }
         if (res.name === 'mainTitle') {
           this.mainTitle = res.value;
         }
+        this.cdr.detectChanges();
       }
     });
   }
 
   selectChange(value: any) {
-    console.debug('selectChange', value);
+    this.settingSrv.setLayout('selectValue', value);
   }
 }

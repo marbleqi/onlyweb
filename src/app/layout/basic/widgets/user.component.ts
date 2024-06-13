@@ -1,10 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { SettingsService, User } from '@delon/theme';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { SHARED_IMPORTS } from '@shared';
 
 @Component({
   selector: 'header-user',
@@ -28,12 +24,22 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, NzDropDownModule, NzMenuModule, NzIconModule, NzAvatarModule]
+  imports: [...SHARED_IMPORTS]
 })
-export class HeaderUserComponent {
-  private readonly settings = inject(SettingsService);
-  private readonly router = inject(Router);
-  get user(): User {
-    return this.settings.user;
+export class HeaderUserComponent implements OnInit {
+  /**cdr */
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly settingSrv = inject(SettingsService);
+
+  user!: User;
+
+  ngOnInit(): void {
+    this.user = this.settingSrv.user;
+    this.settingSrv.notify.subscribe(res => {
+      if (res.type === 'user') {
+        this.user = res.value;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

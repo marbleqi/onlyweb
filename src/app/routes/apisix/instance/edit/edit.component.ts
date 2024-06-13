@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
-import { _HttpClient } from '@delon/theme';
 import { SHARED_IMPORTS } from '@shared';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-import { ApisixInstanceService } from '../..';
+import { ApisixInstanceService, ApisixService } from '../..';
 
 @Component({
   selector: 'app-apisix-instance-edit',
@@ -14,7 +13,7 @@ import { ApisixInstanceService } from '../..';
   standalone: true,
   imports: [...SHARED_IMPORTS]
 })
-export class ApisixInstanceEditComponent {
+export class ApisixInstanceEditComponent implements OnInit {
   /**cdr */
   private readonly cdr = inject(ChangeDetectorRef);
   /**路由服务 */
@@ -25,6 +24,9 @@ export class ApisixInstanceEditComponent {
   private readonly msgSrv = inject(NzMessageService);
   /**实例服务 */
   private readonly instanceSrv = inject(ApisixInstanceService);
+  /**当前模块服务 */
+  private readonly apisixSrv = inject(ApisixService);
+
   /**页面类型：创建、编辑、复制 */
   type!: 'add' | 'edit' | 'copy';
   /**页面类型：创建、编辑、复制 */
@@ -63,7 +65,12 @@ export class ApisixInstanceEditComponent {
   /**表单提交数据 */
   value: any;
 
-  constructor() {
+  ngOnInit(): void {
+    this.apisixSrv.main();
+    this.reload();
+  }
+
+  reload() {
     this.type = this.route.snapshot.data['type'];
     if (this.type === 'add') {
       this.title = `新建${this.name}`;
@@ -88,10 +95,6 @@ export class ApisixInstanceEditComponent {
       }
     }
     this.loading = false;
-  }
-
-  reload() {
-    this.sf.reset();
   }
 
   save(): void {

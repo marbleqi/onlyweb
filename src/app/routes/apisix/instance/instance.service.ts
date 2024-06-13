@@ -63,7 +63,7 @@ export class ApisixInstanceService {
    * @param value 实例配置
    */
   update(id: number, value: any): void {
-    this.dataMap.set(id, { ...value, update_at: Date.now() });
+    this.dataMap.set(id, { ...value, create_at: value?.['create_at'] || Date.now(), update_at: Date.now() });
     this.settingSrv.setData('apisix', Array.from(this.dataMap.values()));
   }
 
