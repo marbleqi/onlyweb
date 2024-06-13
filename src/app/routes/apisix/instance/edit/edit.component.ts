@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema } from '@delon/form';
 import { SHARED_IMPORTS } from '@shared';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -26,11 +26,8 @@ export class ApisixInstanceEditComponent implements OnInit {
   private readonly instanceSrv = inject(ApisixInstanceService);
   /**当前模块服务 */
   private readonly apisixSrv = inject(ApisixService);
-
   /**页面类型：创建、编辑、复制 */
   type!: 'add' | 'edit' | 'copy';
-  /**页面类型：创建、编辑、复制 */
-  loading: boolean = true;
   /**列表页路径 */
   baseUrl: string = '/apisix/instance';
   /**对象名称 */
@@ -39,8 +36,6 @@ export class ApisixInstanceEditComponent implements OnInit {
   title!: string;
   /**提交按钮文字 */
   buttonName!: string;
-  /**表单 */
-  @ViewChild('sf') readonly sf!: SFComponent;
   /**表单配置 */
   schema: SFSchema = {
     properties: {
@@ -94,7 +89,6 @@ export class ApisixInstanceEditComponent implements OnInit {
         this.value = this.instanceSrv.show(this.id);
       }
     }
-    this.loading = false;
   }
 
   save(): void {
