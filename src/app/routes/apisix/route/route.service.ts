@@ -20,22 +20,17 @@ export class ApisixRouteService {
   }
 
   show(iid: number, id: string): Observable<any> {
-    console.debug(iid, typeof iid, id, typeof id);
     const instance = this.instanceSrv.show(iid);
-    console.debug(instance);
     return this.http.get(`${instance.url}/apisix/admin/routes/${id}`, {}, { headers: { 'X-API-KEY': instance.key } });
   }
 
   create(iid: number, value: any): Observable<any> {
-    console.debug(iid, value);
     const instance = this.instanceSrv.show(iid);
-    console.debug(instance);
     return this.http.post(`${instance.url}/apisix/admin/routes`, value, {}, { headers: { 'X-API-KEY': instance.key } });
   }
 
   update(iid: number, id: string, value: any): Observable<any> {
     const instance = this.instanceSrv.show(iid);
-    console.debug(instance);
     return this.http.patch(`${instance.url}/apisix/admin/routes/${id}`, value, {}, { headers: { 'X-API-KEY': instance.key } });
   }
 

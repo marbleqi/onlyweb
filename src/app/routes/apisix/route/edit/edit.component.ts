@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SFSchema, SFUISchema } from '@delon/form';
-import { _HttpClient } from '@delon/theme';
+import { SettingsService } from '@delon/theme';
 import { SHARED_IMPORTS } from '@shared';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 
-import { ApisixRouteService, ApisixRouteNodesComponent } from '../..';
+import { ApisixService, ApisixRouteService, ApisixRouteNodesComponent } from '../..';
 
 @Component({
   selector: 'app-apisix-route-edit',
@@ -14,14 +15,20 @@ import { ApisixRouteService, ApisixRouteNodesComponent } from '../..';
   standalone: true,
   imports: [...SHARED_IMPORTS, ApisixRouteNodesComponent]
 })
-export class ApisixRouteEditComponent implements OnInit {
+export class ApisixRouteEditComponent implements OnInit, OnDestroy {
   /**cdr */
   private readonly cdr = inject(ChangeDetectorRef);
   /**路由服务 */
   protected readonly router = inject(Router);
   /**当前路由快照 */
   protected readonly route = inject(ActivatedRoute);
+  /**消息服务 */
   private readonly msgSrv = inject(NzMessageService);
+  /**框架配置服务 */
+  private readonly settingSrv = inject(SettingsService);
+  /**当前模块服务 */
+  private readonly apisixSrv = inject(ApisixService);
+  /**APISIX的路由服务 */
   private readonly routeSrv = inject(ApisixRouteService);
   /**加载状态 */
   loading: boolean = false;
@@ -29,15 +36,19 @@ export class ApisixRouteEditComponent implements OnInit {
   baseUrl!: string;
   /**页面类型：创建、编辑、复制 */
   type!: 'add' | 'edit' | 'copy';
+  /**APISIX实例ID */
   iid!: number;
+  /**标题 */
   title!: string;
+  /**路由ID */
   id!: string;
   /**对象名称 */
   name: string = '路由';
   /**提交按钮文字 */
   buttonName!: string;
-  record: any = {};
+  /**表单初始数据 */
   i: any;
+  /**表单配置 */
   schema: SFSchema = {
     properties: {
       id: { type: 'string', title: 'id' },
@@ -120,6 +131,7 @@ export class ApisixRouteEditComponent implements OnInit {
       update_time: { type: 'number', title: '修改时间', timestamp: 's' }
     }
   };
+  /**表单样式 */
   ui: SFUISchema = {
     '*': { spanLabelFixed: 100, spanLabel: 4, spanControl: 20, grid: { span: 12 } },
     $id: { widget: 'text', grid: { span: 24 } },
@@ -151,8 +163,19 @@ export class ApisixRouteEditComponent implements OnInit {
   value: any;
   /**节点数据 */
   nodes: any[] = [];
+  /**通知订阅 */
+  notify: Subscription;
+  /**构造函数 */
   constructor() {
-    console.debug('构造函数', this.route.snapshot.data['type']);
+    this.notify = this.settingSrv.notify.subscribe(res => {
+      console.debug('route通知', res);
+      if (res.type === 'layout' && res.name === 'selectValue' && this.iid !== res.value) {
+        this.router.navigateByUrl(`/apisix/route/${res.value}`);
+      }
+    });
+  }
+  /**组件初始化 */
+  ngOnInit(): void {
     this.iid = Number(this.route.snapshot.params['iid']);
     if (!this.iid) {
       this.router.navigateByUrl('/apisix/instance');
@@ -160,13 +183,11 @@ export class ApisixRouteEditComponent implements OnInit {
     }
     this.type = this.route.snapshot.data['type'];
     this.baseUrl = `/apisix/route/${this.iid}`;
+    this.apisixSrv.menu(this.iid);
     this.reload();
   }
 
-  ngOnInit(): void {
-    console.debug('初始化函数', this.route.snapshot.data['type']);
-  }
-
+  /**页面刷新 */
   reload() {
     if (this.type === 'add') {
       this.title = `新建${this.name}`;
@@ -200,13 +221,7 @@ export class ApisixRouteEditComponent implements OnInit {
     }
   }
 
-  nodesChange(value: any) {
-    console.debug('节点变化', value);
-    this.nodes = value;
-    this.value = { upstream_id: this.value.upstream_id, upstream: { ...this.value.upstream, nodes: this.nodes } };
-    // this.change.emit(this.value);
-  }
-
+  /**保存提交 */
   save() {
     const value = {
       ...this.value,
@@ -215,17 +230,19 @@ export class ApisixRouteEditComponent implements OnInit {
       create_time: undefined,
       update_time: undefined
     };
-    console.debug('保存', this.value);
     if (this.type === 'edit') {
       this.routeSrv.update(this.iid, this.id, value).subscribe(res => {
-        console.debug('保存结果', res);
         this.msgSrv.success('保存成功');
       });
     } else {
       this.routeSrv.create(this.iid, value).subscribe(res => {
-        console.debug('创建结果', res);
         this.msgSrv.success('创建成功');
       });
     }
+  }
+
+  /**组件销毁 */
+  ngOnDestroy(): void {
+    this.notify.unsubscribe();
   }
 }
