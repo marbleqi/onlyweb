@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ControlWidget } from '@delon/form';
-import { NuMonacoEditorModule, NuMonacoEditorComponent, NuMonacoEditorDiffComponent, NuMonacoEditorEvent } from '@ng-util/monaco-editor';
+import { NuMonacoEditorComponent, NuMonacoEditorDiffComponent, NuMonacoEditorEvent } from '@ng-util/monaco-editor';
 import { SHARED_IMPORTS } from '@shared';
-import { format, fromUnixTime } from 'date-fns';
 import { sampleTime } from 'rxjs';
 
 @Component({
@@ -10,7 +9,7 @@ import { sampleTime } from 'rxjs';
   templateUrl: './monaco.widget.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [...SHARED_IMPORTS, NuMonacoEditorModule]
+  imports: [...SHARED_IMPORTS]
 })
 export class MonacoWidget extends ControlWidget implements OnInit {
   /**小部件key */

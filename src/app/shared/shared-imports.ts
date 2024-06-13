@@ -2,6 +2,7 @@ import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@delon/theme';
+import { NuMonacoEditorModule } from '@ng-util/monaco-editor';
 
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
@@ -15,5 +16,6 @@ export const SHARED_IMPORTS = [
   NgStyle,
   DatePipe,
   ...SHARED_DELON_MODULES,
-  ...SHARED_ZORRO_MODULES
+  ...SHARED_ZORRO_MODULES,
+  NuMonacoEditorModule
 ];

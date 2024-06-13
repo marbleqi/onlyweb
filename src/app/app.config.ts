@@ -14,12 +14,13 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { defaultInterceptor, provideStartup } from '@core';
 import { provideCellWidgets } from '@delon/abc/cell';
-import { provideReuseTabConfig, ReuseTabMatchMode, ReuseTabRouteParamMatchMode } from '@delon/abc/reuse-tab';
+import { provideReuseTabConfig, ReuseTabMatchMode } from '@delon/abc/reuse-tab';
 import { provideSTWidgets } from '@delon/abc/st';
 import { provideSFConfig } from '@delon/form';
 import { AlainProvideLang, provideAlain, zh_CN as delonLang } from '@delon/theme';
 import { AlainConfig } from '@delon/util/config';
 import { environment } from '@env/environment';
+import { provideNuMonacoEditorConfig } from '@ng-util/monaco-editor';
 import { CELL_WIDGETS, ST_WIDGETS, SF_WIDGETS } from '@shared';
 import { zhCN as dateLang } from 'date-fns/locale';
 import { NzConfig, provideNzConfig } from 'ng-zorro-antd/core/config';
@@ -76,6 +77,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: [...SF_WIDGETS] }),
   provideReuseTabConfig({ mode: ReuseTabMatchMode.URL, max: 30 }),
+  provideNuMonacoEditorConfig({ baseUrl: 'assets/monaco-editor', defaultOptions: { language: 'yaml', theme: 'vs-dark' } }),
   provideStartup()
 ];
 
